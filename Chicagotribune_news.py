@@ -3,7 +3,7 @@ import bs4
 import re
 import time
 import json
-from urllib.parse import urljoin
+
 
 
 def main_page():
@@ -48,7 +48,7 @@ def content_news(news_link: str):
 
 
 def validate(entry: dict):
-    keywords = ['republican', 'GOP', 'democratic', 'Republican', 'Democratic']
+    keywords = ['republican', 'Republican', 'GOP', 'democratic', 'Democratic']
     title = entry.get('title')
     content = entry.get('content')
     if title == None or content == None:
@@ -72,8 +72,6 @@ def load_json(fname: str):
     try:
         with open(fname, 'r') as fp:
             d = json.load(fp)
-    except IOError:
-        print("Unable to open " + fname + "... do nothing")
     finally:
         return d
 
@@ -87,7 +85,7 @@ if __name__ == '__main__':
         print("Попытка #" + str(i))
         refs = main_page()
         for entry_name, link in refs.items():
-            if entries.get(link) is None:
+            if entries.get(link) == None:
                 time.sleep(.5)
                 print('Получение контента: "' + entry_name + '"...')
                 news = content_news(link)
